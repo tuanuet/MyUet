@@ -9,6 +9,7 @@ import vnu.uet.tuan.myuet.Service.MyService;
 
 /**
  * Created by Admin on 15/9/2016.
+ * dung alarm de chay service
  */
 public class Receiver extends BroadcastReceiver {
     @Override
