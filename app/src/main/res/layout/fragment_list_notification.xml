@@ -1,0 +1,12 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="vnu.uet.tuan.demo_uet_notification.Fragments.ListNotification">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_height="match_parent"
+        android:id="@+id/recycleview"
+        android:layout_width="match_parent"/>
+</LinearLayout>
