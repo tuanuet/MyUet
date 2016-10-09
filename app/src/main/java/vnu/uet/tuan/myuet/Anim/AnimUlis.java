@@ -11,20 +11,26 @@ import vnu.uet.tuan.myuet.Adapter.Adapter_RecycleView;
  */
 public class AnimUlis {
     public static void animate(Adapter_RecycleView.ItemViewHolder holder, boolean isdown){
-        AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator animatorY = ObjectAnimator.ofFloat(holder.itemView, "translationY", isdown==true ? 200 : -200, 0);
-        animatorY.setDuration(600);
+        AnimatorSet animatorSet = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            animatorSet = new AnimatorSet();
+            ObjectAnimator animatorY = ObjectAnimator.ofFloat(holder.itemView, "translationY", isdown==true ? 200 : -200, 0);
+            animatorY.setDuration(600);
+//            objectAnimator animatorX = ObjectAnimator.ofFloat(holder.itemView, "translationX",isdown==true ? 300 : -300,0);
+//        animatorX.setDuration(600);
+//
+//        ObjectAnimator scaleY = ObjectAnimator.ofFloat(holder.itemView, "scaleY", 0, 1);
+//        scaleY.setDuration(1000);
+//
+//        ObjectAnimator scaleX = ObjectAnimator.ofFloat(holder.itemView, "scaleX", 0, 1);
+//        scaleX.setDuration(1000);
+            animatorSet.playTogether(animatorY);
+            animatorSet.start();
+        }
 
-        ObjectAnimator animatorX = ObjectAnimator.ofFloat(holder.itemView, "translationX",isdown==true ? 300 : -300,0);
-        animatorX.setDuration(600);
 
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(holder.itemView, "scaleY", 0, 1);
-        scaleY.setDuration(1000);
 
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(holder.itemView, "scaleX", 0, 1);
-        scaleX.setDuration(1000);
 
-        animatorSet.playTogether(animatorY,animatorX,scaleY,scaleX);
-        animatorSet.start();
+
     }
 }

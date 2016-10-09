@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import vnu.uet.tuan.myuet.Adapter.Adapter_RecycleView;
+import vnu.uet.tuan.myuet.Anim.AnimUlis;
 import vnu.uet.tuan.myuet.Models.Noti_data;
 import vnu.uet.tuan.myuet.R;
 import vnu.uet.tuan.myuet.Receiver.Receiver;
@@ -108,6 +109,7 @@ public class ListNotification extends Fragment {
         list.add(new Noti_data("",""));
         adapter= new Adapter_RecycleView(getContext(),list);
         recyclerView.setAdapter(adapter);
+
     }
 
     public void getDatafromUet(final int page){
@@ -171,7 +173,8 @@ public class ListNotification extends Fragment {
         protected void onPostExecute(ArrayList arrayList) {
             super.onPostExecute(arrayList);
             list.addAll(list.size()-1,arrayList);
-            adapter.notifyDataSetChanged();
+
+            adapter.notifyItemInserted(list.size()-1);
             isLoading = false;
         }
 

@@ -3,6 +3,7 @@ package vnu.uet.tuan.myuet.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import vnu.uet.tuan.myuet.Anim.AnimUlis;
 import vnu.uet.tuan.myuet.Models.Noti_data;
 import vnu.uet.tuan.myuet.R;
 
@@ -23,7 +25,7 @@ public class Adapter_RecycleView extends RecyclerView.Adapter{
     Context context;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-//    int previousposition;
+    int previousposition;
     public Adapter_RecycleView(Context context, ArrayList<Noti_data> list) {
         this.context = context;
         this.list = list;
@@ -57,18 +59,21 @@ public class Adapter_RecycleView extends RecyclerView.Adapter{
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             itemViewHolder.txt_title.setText(list.get(position).getTitle());
             itemViewHolder.txt_content.setText(list.get(position).getContent());
+
+            if(position>=previousposition){
+                AnimUlis.animate(itemViewHolder,true);
+            }
+            else AnimUlis.animate(itemViewHolder,false);
+
+            previousposition = position;
+
         }else {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
         }
 
 
-//        if(position>=previousposition){
-//            AnimUlis.animate(holder,true);
-//        }
-//        else AnimUlis.animate(holder,false);
-//
-//        previousposition = position;
+
 
     }
     @Override
@@ -100,6 +105,7 @@ public class Adapter_RecycleView extends RecyclerView.Adapter{
                     Toast.makeText(itemView.getContext(),getAdapterPosition()+"", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
     }
 }
