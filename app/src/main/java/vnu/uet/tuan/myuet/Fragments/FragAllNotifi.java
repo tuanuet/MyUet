@@ -158,6 +158,8 @@ public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefr
         list.clear();
         initListwithbottomlayout("REFRESH");
         adapter.notifyDataSetChanged();
+        getDatafromUet(0);
+
 
     }
 
@@ -215,9 +217,10 @@ public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefr
 
                 adapter.notifyItemInserted(list.size()-1);
                 isLoading = false;
+                if(mSwipeRefresh.isRefreshing()){
+                    mSwipeRefresh.setRefreshing(false);
+                }
             }
-
-
 
 
         }

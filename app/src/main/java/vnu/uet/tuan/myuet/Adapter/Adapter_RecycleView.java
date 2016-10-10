@@ -25,11 +25,10 @@ public class Adapter_RecycleView extends RecyclerView.Adapter{
     Context context;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    int previousposition;
+    int previousposition = -1;
     public Adapter_RecycleView(Context context, ArrayList<Noti_data> list) {
         this.context = context;
         this.list = list;
-
     }
 
 
@@ -61,7 +60,7 @@ public class Adapter_RecycleView extends RecyclerView.Adapter{
             itemViewHolder.txt_title.setText(list.get(position).getTitle());
             itemViewHolder.txt_content.setText(list.get(position).getContent());
 
-            if(position>=previousposition){
+            if(position >= previousposition ){
                 AnimUlis.animate(itemViewHolder,true);
             }
             else AnimUlis.animate(itemViewHolder,false);
