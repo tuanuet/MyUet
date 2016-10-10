@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import vnu.uet.tuan.myuet.Adapter.Adapter_RecycleView;
-import vnu.uet.tuan.myuet.Anim.AnimUlis;
+import vnu.uet.tuan.myuet.KiemTraKetNoiInternet.Kiemtra;
 import vnu.uet.tuan.myuet.Models.Noti_data;
 import vnu.uet.tuan.myuet.R;
 import vnu.uet.tuan.myuet.Receiver.Receiver;
@@ -32,15 +34,16 @@ import vnu.uet.tuan.myuet.Receiver.Receiver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListNotification extends Fragment {
+public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     RecyclerView recyclerView;
     LinearLayoutManager mLayoutManager;
     Adapter_RecycleView adapter;
     ArrayList<Noti_data> list;
     Boolean isLoading = false;
     private int pageNumber = 0;
+    private SwipeRefreshLayout mSwipeRefresh;
 
-    public ListNotification() {
+    public FragAllNotifi() {
         // Required empty public constructor
     }
 
@@ -49,14 +52,20 @@ public class ListNotification extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_list_notification, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycleview);
+        View view = inflater.inflate(R.layout.fragment_all_notifi, container, false);
 
         //init
-        init();
+        init(view);
 
-        //
+        //onRefresh
+        //cap nhap lai recycleView
+        mSwipeRefresh.setOnRefreshListener(this);
+
+        //lay data lan dau
+
         getDatafromUet(pageNumber);
+
+
 
         //sau khoang thoi gian 5s thi se get du leu ve
         interValData(1000*60*10);
@@ -73,7 +82,8 @@ public class ListNotification extends Fragment {
 
                 int lastVisiblePosition = mLayoutManager.findLastVisibleItemPosition();
                 //Check when scroll to last item in listview, in this tut, init data in listview = 10 item
-                if(lastVisiblePosition == recyclerView.getAdapter().getItemCount()-1 && isLoading == false) {
+                if(lastVisiblePosition == recyclerView.getAdapter().getItemCount()-1
+                        && isLoading == false && recyclerView.getAdapter().getItemCount()!=1) {
                     isLoading = true;
                     pageNumber++;
                     getDatafromUet(pageNumber);
@@ -83,6 +93,12 @@ public class ListNotification extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDatafromUet(pageNumber);
     }
 
     private void interValData(long timetomilis) {
@@ -100,28 +116,50 @@ public class ListNotification extends Fragment {
     }
 
     //add them phan tu dau tien de dung load more
-    private void init() {
+    private void init(View view) {
 
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycleview);
+        mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout_allnoti);
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         list = new ArrayList<>();
-        list.add(new Noti_data("",""));
-        adapter= new Adapter_RecycleView(getContext(),list);
+        initListwithbottomlayout("UNREFRESH");
+        adapter= new Adapter_RecycleView(getActivity(),list);
         recyclerView.setAdapter(adapter);
+
 
     }
 
-    public void getDatafromUet(final int page){
-       //BackGround thread
-       getActivity().runOnUiThread(new Runnable() {
-           @Override
-           public void run() {
-               new GetDataFromUET().execute(String.valueOf(page));
-           }
-       });
+    private void initListwithbottomlayout(String isRefresh) {
 
+        list.add(new Noti_data("",isRefresh));
+    }
+
+    public void getDatafromUet(final int page){
+        Kiemtra check_internet = new Kiemtra(getActivity());
+        final boolean isConnected = check_internet.checkMobileInternetConn();
+        if(isConnected){
+            //BackGround thread
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    new GetDataFromUET().execute(String.valueOf(page));
+                }
+            });
+        }
+        else {
+            Toast.makeText(getActivity(),getResources().getString(R.string.loimang),Toast.LENGTH_SHORT).show();
+        }
    }
+
+    @Override
+    public void onRefresh() {
+        list.clear();
+        initListwithbottomlayout("REFRESH");
+        adapter.notifyDataSetChanged();
+
+    }
 
     public class GetDataFromUET extends AsyncTask<String,Void,ArrayList> {
 
@@ -163,7 +201,7 @@ public class ListNotification extends Fragment {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.d("exception", "getData: "+e.getMessage());
             }
 
             return datas;
@@ -172,10 +210,16 @@ public class ListNotification extends Fragment {
         @Override
         protected void onPostExecute(ArrayList arrayList) {
             super.onPostExecute(arrayList);
-            list.addAll(list.size()-1,arrayList);
+            if(arrayList.size()!=0){
+                list.addAll(list.size()-1,arrayList);
 
-            adapter.notifyItemInserted(list.size()-1);
-            isLoading = false;
+                adapter.notifyItemInserted(list.size()-1);
+                isLoading = false;
+            }
+
+
+
+
         }
 
     }

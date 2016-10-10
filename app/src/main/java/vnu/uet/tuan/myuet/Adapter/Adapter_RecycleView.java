@@ -32,10 +32,11 @@ public class Adapter_RecycleView extends RecyclerView.Adapter{
 
     }
 
+
     @Override
     public int getItemViewType(int position) {
 
-        return list.get(position).getTitle() == "" ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        return list.get(position).getTitle().equals("") ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
@@ -68,8 +69,20 @@ public class Adapter_RecycleView extends RecyclerView.Adapter{
             previousposition = position;
 
         }else {
+            //can than cho nay nhe
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
-            loadingViewHolder.progressBar.setIndeterminate(true);
+            if(getItemCount()==1&&list.get(0).getContent().equals("REFRESH")){
+                loadingViewHolder.progressBar.setVisibility(View.INVISIBLE);
+            }
+            else if(getItemCount()==1&&list.get(0).getContent().equals("UNREFRESH")){
+                loadingViewHolder.progressBar.setVisibility(View.VISIBLE);
+                loadingViewHolder.progressBar.setIndeterminate(true);
+            }
+            else {
+                loadingViewHolder.progressBar.setVisibility(View.VISIBLE);
+                loadingViewHolder.progressBar.setIndeterminate(true);
+            }
+
         }
 
 

@@ -5,4 +5,18 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="important_noti">Bài viết quan trọng</string>
+    <string name="new_noti">Mới đăng</string>
+    <string name="pdaotao">Phòng Đào Tạo</string>
+    <string name="pcongtac">Phòng Công Tác SV</string>
+    <string name="ptaichinh">Phòng Tài Chính</string>
+    <string name="noti_cai_nhan">Thông báo cá nhân</string>
+    <string name="profile">Tài Khoản của tôi</string>
+    <string name="about">About Us</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quantrong">Quan Trọng</string>
+    <string name="all">Tất cả</string>
+    <string name="loimang">Hãy kiểm tra lại kết nỗi mạng</string>
 </resources>
