@@ -42,7 +42,7 @@ public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefr
     Boolean isLoading = false;
     private int pageNumber = 0;
     private SwipeRefreshLayout mSwipeRefresh;
-
+    private LoadingFrag loadingFrag;
     public FragAllNotifi() {
         // Required empty public constructor
     }
@@ -95,11 +95,6 @@ public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefr
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getDatafromUet(pageNumber);
-    }
 
     private void interValData(long timetomilis) {
         Intent intent =new Intent(getContext(), Receiver.class);
@@ -127,7 +122,7 @@ public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefr
         initListwithbottomlayout("UNREFRESH");
         adapter= new Adapter_RecycleView(getActivity(),list);
         recyclerView.setAdapter(adapter);
-
+        loadingFrag = LoadingFrag.newInstance();
 
     }
 
@@ -160,11 +155,16 @@ public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefr
         adapter.notifyDataSetChanged();
         getDatafromUet(0);
 
-
     }
 
     public class GetDataFromUET extends AsyncTask<String,Void,ArrayList> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d("PreEx","preEx");
+
+        }
 
         @Override
         protected ArrayList doInBackground(String... params) {
@@ -212,7 +212,11 @@ public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefr
         @Override
         protected void onPostExecute(ArrayList arrayList) {
             super.onPostExecute(arrayList);
+
             if(arrayList.size()!=0){
+                Log.d("PreEx","post");
+
+
                 list.addAll(list.size()-1,arrayList);
 
                 adapter.notifyItemInserted(list.size()-1);

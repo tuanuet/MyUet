@@ -2,8 +2,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/refresh_layout_allnoti">
-    <android.support.v7.widget.RecyclerView
-        android:layout_height="match_parent"
-        android:id="@+id/recycleview"
-        android:layout_width="match_parent"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/content_all_noti">
+        <android.support.v7.widget.RecyclerView
+            android:layout_height="match_parent"
+            android:id="@+id/recycleview"
+            android:layout_width="match_parent"/>
+    </FrameLayout>
+
+
 </android.support.v4.widget.SwipeRefreshLayout>
