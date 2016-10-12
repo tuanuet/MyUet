@@ -1,5 +1,6 @@
 package vnu.uet.tuan.myuet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,8 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import vnu.uet.tuan.myuet.Fragments.Daotao_fragment;
-import vnu.uet.tuan.myuet.Fragments.FragAllNotifi;
-import vnu.uet.tuan.myuet.KiemTraKetNoiInternet.Kiemtra;
+import vnu.uet.tuan.myuet.SettingActivity.SettingsActivity;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_pdaotao);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent setting=new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(setting);
             return true;
         }
 
@@ -96,7 +100,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_pdaotao) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_pcongtac) {
 
         } else if (id == R.id.nav_ptaichinh) {

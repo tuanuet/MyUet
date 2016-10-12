@@ -168,10 +168,13 @@ public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefr
 
         @Override
         protected ArrayList doInBackground(String... params) {
+
+            ArrayList datas = new ArrayList();
+
             String numberPage= params[0];
             String url = "http://www.uet.vnu.edu.vn/taxonomy/term/53"+"?page="+numberPage;
             Document doc = null;
-            ArrayList datas = new ArrayList();
+
             try {
                 doc = Jsoup.connect(url).get();
                 Elements content = doc.select(".view-content div.views-row");
@@ -205,6 +208,13 @@ public class FragAllNotifi extends Fragment implements SwipeRefreshLayout.OnRefr
             } catch (IOException e) {
                 Log.d("exception", "getData: "+e.getMessage());
             }
+            return  datas;
+        }
+
+        private ArrayList facedata(int page) {
+            ArrayList datas = new ArrayList();
+
+
 
             return datas;
         }

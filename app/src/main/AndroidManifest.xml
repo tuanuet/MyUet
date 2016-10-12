@@ -20,6 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SettingActivity.SettingsActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Settings">
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </activity>
 
         <service android:name=".Service.MyService" />
 
