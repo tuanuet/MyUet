@@ -91,4 +91,5 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="pref_title_type_data">Loại Thông báo</string>
+
 </resources>
