@@ -1,0 +1,39 @@
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<SwitchPreference-->
+        <!--android:defaultValue="true"-->
+        <!--android:key="example_switch"-->
+        <!--android:summary="@string/pref_description_social_recommendations"-->
+        <!--android:title="@string/pref_title_social_recommendations" />-->
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <!--<ListPreference-->
+        <!--android:defaultValue="Tất cả"-->
+        <!--android:entries="@array/pref_type_data_entries"-->
+        <!--android:entryValues="@array/pref_type_data_values"-->
+        <!--android:key="type_data"-->
+        <!--android:negativeButtonText="@null"-->
+        <!--android:positiveButtonText="@null"-->
+        <!--android:title="@string/pref_title_type_data" />-->
+
+    <MultiSelectListPreference
+        android:key="type_data"
+        android:title="@string/pref_title_type_data"
+        android:entries="@array/type_data_notifi_lables"
+        android:entryValues="@array/type_data_notifi_values"
+        android:defaultValue="@array/type_data_notifi_default"/>
+
+
+    <!--<MultiSelectListPreference-->
+        <!--android:dialogTitle="@string/pref_title_type_data"-->
+        <!--android:key="type_data"-->
+        <!--android:summary="@string/exclude_food_summary"-->
+        <!--android:title="@string/pref_title_type_data"-->
+        <!--android:entries="@array/pref_type_data_entries"-->
+        <!--android:entryValues="@array/pref_type_data_values"-->
+        <!--android:defaultValue="@array/empty_array"-->
+        <!--/>-->
+</PreferenceScreen>
